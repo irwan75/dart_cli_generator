@@ -1,12 +1,12 @@
 import '../print/print_color.dart';
 
-class Helper {
+class HelperView {
 
-  Helper._privateConstructor();
+  HelperView._privateConstructor();
 
-  static final Helper _instance = Helper._privateConstructor();
+  static final HelperView _instance = HelperView._privateConstructor();
 
-  static Helper get getInstance => _instance;
+  static HelperView get getInstance => _instance;
 
   void showAvailableCommands(){
     var printCustom = PrintColor.getInstance;

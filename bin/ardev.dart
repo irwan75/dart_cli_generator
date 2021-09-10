@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'const/data_query.dart';
 import 'const/path.dart';
 import 'function/decision_default_languange.dart';
+import 'function/file_helper.dart';
+import 'function/folder_helper.dart';
 import 'print/print_color.dart';
 import 'validation/int.dart';
 import 'validation/string.dart';
@@ -90,8 +91,8 @@ void main(List<String> arguments) async {
         print('There is error : $error');
       });
 
-    createLinter(pathProject);
-    createDirectory(pathProject + '/packages');
+    // createLinter(pathProject);
+    createPackagesDirectory(pathProject);
   }).catchError((error) {
     print('There is error : $error');
   });
@@ -100,33 +101,28 @@ void main(List<String> arguments) async {
   // Helper.getInstance.showAvailableCommands();
 }
 
-void createDirectory(String pathDirectory) {
-  Directory(pathDirectory).create(recursive: true).then((folder) {
-    print('your folder "packages" has been created successfully');
-    
-      Directory(pathDirectory+'/data').create(recursive: true).then((folder) {
-        print('your folder "data" has been created successfully');
-      }).catchError((error) {
-        print('There is error : $error');
-      });
+void createPackagesDirectory(String pathBaseDirectory) {
+  FolderHelper.createFolder(pathBaseDirectory + PathFolder.packagesFolder);
 
-      Directory(pathDirectory+'/services').create(recursive: true).then((folder) {
-        print('your folder "services" has been created successfully');
-      }).catchError((error) {
-        print('There is error : $error');
-      });
-    
-  }).catchError((error) {
-    print('There is error : $error');
-  });
+  //Data
+  for (var value in PathFolder.pathDataFolder) {
+    FolderHelper.createFolder(pathBaseDirectory + value);
+  }
+
+  //Services
+  for (var value in PathFolder.pathServiceFolder) {
+    FolderHelper.createFolder(pathBaseDirectory + value);
+  }
+
+  createFilePackages(pathBaseDirectory);
+
 }
 
-void writeFile() {
-  // var sink = file
-  //     .openWrite(); // for appending at the end of file, pass parameter (mode: FileMode.append) to openWrite()
-  // sink.write(DataQuery.linterFormat);
-  // sink.flush();
-  // sink.close();
+void createFilePackages(String pathBaseDirectory){
+  for(var value in FileNameandPath.pathFileandName){
+    FileHelper.createFile(pathBaseDirectory+value);
+  }
+  
 }
 
 /// [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
@@ -134,9 +130,9 @@ void createLinter(String path) async {
   await Process.run('flutter', ['pub', 'add', '-d', 'lint']).then((value) {
     print('Success add Linter dev_dependencies');
 
-    File(path + FileName.analysisOption).create(recursive: true).then((file) {
+    File(path + FileNameandPath.analysisOption).create(recursive: true).then((file) {
       print(
-          'your file has been created successfully at ${FileName.analysisOption}');
+          'your file has been created successfully at ${FileNameandPath.analysisOption}');
     }).catchError((error) {
       print('There is error : $error');
     });
