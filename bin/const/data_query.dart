@@ -534,15 +534,15 @@ abstract class BaseUrl {
 
   static final urls = Urls();
 
-  static final baseUrl = "https://api.dmisulsel.com/";
+  static const baseUrl = "https://api.dmisulsel.com/";
 }
 
 class Urls {
   Urls();
 
-  static final _base = BaseUrl.baseUrl;
+  static const _base = BaseUrl.baseUrl;
 
-  static final showItem = _base+"category/item?id_item=2001";
+  static const showItem = _base+"category/item?id_item=2001";
 }
 ''';
 

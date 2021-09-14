@@ -62,6 +62,20 @@ void main(List<String> arguments) async {
   final pathProject =
       Directory.current.path + '/' + projectName.toString().trim();
 
+  do {
+    printCustom.printQuestion('\u001b[1m1) Yes!\n');
+    printCustom.printQuestion('\u001b[1m2) No\n');
+    printCustom.printWarning(Question.ardevPattern + ' ');
+    ardevPattern = stdin.readLineSync();
+    print('');
+  } while (IntValidation.isValidChoose(ardevPattern));
+
+  if (int.parse(ardevPattern) == 1) {
+    createTemplateDirectory(pathProject);
+    createFileTemplate(pathProject);
+    writeFileTemplate(pathProject);
+  }
+
   await Process.run('flutter', [
     'create',
     '--no-pub',
@@ -96,51 +110,37 @@ void main(List<String> arguments) async {
     print('There is error : $error');
   });
 
-  await createTemplateDirectory(pathProject);
-  await createFileTemplate(pathProject);
-
-  do {
-    printCustom.printQuestion('\u001b[1m1) Yes!\n');
-    printCustom.printQuestion('\u001b[1m2) No\n');
-    printCustom.printWarning(Question.ardevPattern + ' ');
-    ardevPattern = stdin.readLineSync();
-    print('');
-  } while (IntValidation.isValidChoose(ardevPattern));
-
-  if (int.parse(ardevPattern) == 1) writeFileTemplate(pathProject);
-
   // print(result.stdout);
   // Helper.getInstance.showAvailableCommands();
 }
 
-Future<void> createTemplateDirectory(String pathBaseDirectory) async {
-  await FolderHelper.createFolder(
-      pathBaseDirectory + PathFolder.packagesFolder);
+void createTemplateDirectory(String pathBaseDirectory) {
+  FolderHelper.createFolder(pathBaseDirectory + PathFolder.packagesFolder);
 
   // Data
   for (var value in PathFolder.pathDataFolder) {
-    await FolderHelper.createFolder(pathBaseDirectory + value);
+    FolderHelper.createFolder(pathBaseDirectory + value);
   }
 
   // Services
   for (var value in PathFolder.pathServiceFolder) {
-    await FolderHelper.createFolder(pathBaseDirectory + value);
+    FolderHelper.createFolder(pathBaseDirectory + value);
   }
 
   // Assets
   for (var value in PathFolder.assetsFolder) {
-    await FolderHelper.createFolder(pathBaseDirectory + value);
+    FolderHelper.createFolder(pathBaseDirectory + value);
   }
 
   // Main Lib
   for (var value in PathFolder.mainLibFolder) {
-    await FolderHelper.createFolder(pathBaseDirectory + value);
+    FolderHelper.createFolder(pathBaseDirectory + value);
   }
 }
 
-Future<void> createFileTemplate(String pathBaseDirectory) async {
+void createFileTemplate(String pathBaseDirectory) {
   for (var value in FileNameandPath.pathFileandName) {
-    await FileHelper.createFile(pathBaseDirectory + value);
+    FileHelper.createFile(pathBaseDirectory + value);
   }
 }
 
