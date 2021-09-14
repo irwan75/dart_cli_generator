@@ -5,9 +5,8 @@ class FileHelper {
     File(path).create(recursive: true);
   }
 
-  FileHelper.writeFile() {
-    // final filename = 'file.txt';
-    // var file = await File(filename).writeAsString('some content');
+  FileHelper.writeFile(String pathandFileName, String content) {
+    File(pathandFileName).writeAsString(content);
   }
 
   FileHelper.writeFilewithStream() {

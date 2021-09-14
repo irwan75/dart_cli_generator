@@ -17,7 +17,7 @@ abstract class PathFolder {
   static const String packagesDataLibRepoFolder =
       '/packages/data/lib/repository';
 
-  static final pathDataFolder = [
+  static const pathDataFolder = [
     packagesDataFolder,
     packagesDataLibFolder,
     packagesDataLibConstFolder,
@@ -41,13 +41,51 @@ abstract class PathFolder {
   static const String packagesServicesLibUtilsFolder =
       '/packages/services/lib/utils';
 
-  static final pathServiceFolder = [
+  static const pathServiceFolder = [
     packagesServicesFolder,
     packagesServicesLibFolder,
     packagesServicesLibDepInjectFolder,
     packagesServicesLibExternalFolder,
     packagesServicesLibInternalFolder,
     packagesServicesLibUtilsFolder,
+  ];
+
+  // Assets Folder
+  static const String assets = '/assets';
+  static const String assetsIcons = '/assets/icons';
+  static const String assetsImages = '/assets/images';
+  static const String assetsLocales = '/assets/locales';
+  static const String assetsFonts = '/assets/fonts';
+  static const String assetsModelsGenerate = '/assets/models_generate';
+
+  static const assetsFolder = [
+    assets,
+    assetsIcons,
+    assetsImages,
+    assetsLocales,
+    assetsFonts,
+    assetsModelsGenerate,
+  ];
+
+  // Main Lib
+  static const String libApp = '/lib/app';
+  static const String libAppCommonWidget = '/lib/app/common_widgets';
+  static const String libAppSizedPlatform = '/lib/app/models_sized_platform';
+  static const String libAppModules = '/lib/app/modules';
+  static const String libAppRes = '/lib/app/res';
+  static const String libAppRoutes = '/lib/app/routes';
+  static const String libAppCommonConnection = '/lib/app/common_connection';
+  static const String libAnimations = '/lib/app/animations';
+
+  static const mainLibFolder = [
+    libApp,
+    libAppCommonWidget,
+    libAppSizedPlatform,
+    libAppModules,
+    libAppRes,
+    libAppRoutes,
+    libAppCommonConnection,
+    libAnimations,
   ];
 }
 
@@ -61,9 +99,11 @@ abstract class Question {
       'Languange do you want to Android default code?';
   static const String nullSafety = 'Do you want to use null safety?';
   static const String linterRule = 'Do you want to use some linter?';
+  static const String ardevPattern = 'Do you want to use ardev pattern?';
 }
 
 abstract class FileNameandPath {
+  static const String pubpspecYaml = '/pubspec.yaml';
   static const String analysisOption = '/analysis_options.yaml';
 
   // Data Const
@@ -86,6 +126,12 @@ abstract class FileNameandPath {
       '/packages/data/lib/const/sized_margin_padding.dart';
   static const String fileConstSizedSpace =
       '/packages/data/lib/const/sized_space.dart';
+  static const String fileConstSizedWidthHeight =
+      '/packages/data/lib/const/sized_width_height.dart';
+  static const String fileConstSizedIcons =
+      '/packages/data/lib/const/sized_icons.dart';
+  static const String fileConstQualityImage =
+      '/packages/data/lib/const/quality_image.dart';
 
   // Data Source
   static const String fileDataSourceSharedPreferences =
@@ -154,11 +200,48 @@ abstract class FileNameandPath {
   // Pubspec.yaml
   static const String packagesServicesPubspec =
       '/packages/services/pubspec.yaml';
-  static const String packagesDataPubspec =
-      '/packages/data/pubspec.yaml';
+  static const String packagesDataPubspec = '/packages/data/pubspec.yaml';
+
+  // Assets Locales
+  static const String assetsLocalesEn = '/assets/locales/en_US.json';
+  static const String assetsLocalesId = '/assets/locales/id_ID.json';
+
+  // Lib App Common Widget
+  static const String libAppCommonButtonCustom =
+      '/lib/app/common_widgets/button_custom.dart';
+  static const String libAppCommonCardCustom =
+      '/lib/app/common_widgets/card_custom.dart';
+  static const String libAppCommonDropDownCustom =
+      '/lib/app/common_widgets/drop_down_custom.dart';
+  static const String libAppCommonFilterWidget =
+      '/lib/app/common_widgets/filter_widget.dart';
+  static const String libAppCommonFormField =
+      '/lib/app/common_widgets/form_field.dart';
+  static const String libAppCommonNotif = '/lib/app/common_widgets/notif.dart';
+  static const String libAppCommonPageViewSlider =
+      '/lib/app/common_widgets/page_view_slider.dart';
+  static const String libAppCommonRadioChoose =
+      '/lib/app/common_widgets/radio_choose_custom.dart';
+  static const String libAppCommonSpecialWidget =
+      '/lib/app/common_widgets/special_widget.dart';
+  static const String libAppCommonTextButton =
+      '/lib/app/common_widgets/text_button.dart';
+  static const String libAppCommonTextViewCustom =
+      '/lib/app/common_widgets/text_view_custom.dart';
+
+  // Lib App Res Widget
+  static const String libAppResColorsData = '/lib/app/res/colors_data.dart';
+  static const String libAppResDummyData = '/lib/app/res/dummy_data.dart';
+  static const String libAppResIconsData = '/lib/app/res/icons_data.dart';
+  static const String libAppResPathImageIcon =
+      '/lib/app/res/path_image_icon.dart';
+  static const String libAppResStyles = '/lib/app/res/styles.dart';
+  static const String libAppResTheme = '/lib/app/res/theme.dart';
+
+  // Dart Doc Guide
+  static const String dartDocGuide = '/dart_doc_guide.txt';
 
   static final pathFileandName = [
-    analysisOption,
     fileConstDurationAnimate,
     fileConstEnum,
     fileConstHardCodeCritical,
@@ -169,6 +252,9 @@ abstract class FileNameandPath {
     fileConstSizedImage,
     fileConstMarginPadding,
     fileConstSizedSpace,
+    fileConstSizedWidthHeight,
+    fileConstSizedIcons,
+    fileConstQualityImage,
     fileDataSourceSharedPreferences,
     fileDataSourceUrls,
     fileModelsOthersHandleFailure,
@@ -194,5 +280,25 @@ abstract class FileNameandPath {
     packagesServicesLibUtilsValidator,
     packagesServicesPubspec,
     packagesDataPubspec,
+    assetsLocalesEn,
+    assetsLocalesId,
+    libAppCommonButtonCustom,
+    libAppCommonCardCustom,
+    libAppCommonDropDownCustom,
+    libAppCommonFilterWidget,
+    libAppCommonFormField,
+    libAppCommonNotif,
+    libAppCommonPageViewSlider,
+    libAppCommonRadioChoose,
+    libAppCommonSpecialWidget,
+    libAppCommonTextButton,
+    libAppCommonTextViewCustom,
+    libAppResColorsData,
+    libAppResDummyData,
+    libAppResIconsData,
+    libAppResPathImageIcon,
+    libAppResStyles,
+    libAppResTheme,
+    dartDocGuide,
   ];
 }
