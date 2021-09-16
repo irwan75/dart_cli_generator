@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 class FileHelper {
@@ -19,7 +20,33 @@ class FileHelper {
 
   FileHelper.deleteFile() {}
 
-  FileHelper.readFile() {}
+  FileHelper.readFileLinesSync(String path) {
+    File file = new File(path);
+
+    // sync
+    List<String> lines = file.readAsLinesSync();
+    lines.forEach((l) => print(l));
+  }
+
+  FileHelper.readFileLinesAsync(String path) {
+    File file = new File(path);
+
+    // async
+    file.readAsLines().then((lines) => lines.forEach((l) => print(l)));
+  }
+
+  Map<String, dynamic> dataResultMapping = new Map<String, dynamic>();
+
+  get dataMapping => dataResultMapping;
+
+  FileHelper.readFileSync(String path) {
+    String contents = new File(path).readAsStringSync();
+    dataResultMapping = jsonDecode(contents) as Map<String, dynamic>;
+  }
+
+  FileHelper.readFileAsync() {
+    new File('./assets/user.json').readAsString().then((c) => print(c));
+  }
 
   FileHelper.putFile() {}
 }

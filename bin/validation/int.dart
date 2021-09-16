@@ -18,7 +18,7 @@ class IntValidation {
       int.parse(text);
       return false;
     } on Exception catch (_) {
-      PrintColor.getInstance.printError('Please Format Number (1/2) \n\n');
+      Logger.error('Please Format Number (1/2) \n\n');
       return true;
     }
   }

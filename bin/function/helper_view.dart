@@ -9,8 +9,7 @@ class HelperView {
   static HelperView get getInstance => _instance;
 
   void showAvailableCommands(){
-    var printCustom = PrintColor.getInstance;
-    printCustom.printWarning('''\n
+    Logger.warning('''\n
 List available commands:\n
   create:
     controller: Generate Controller
@@ -22,7 +21,7 @@ List available commands:\n
     locales: Generate translation file from json files
     model: Generate class model from json files
   help: Show Help
-  upddate: to Update Ardev CLI
+  update: to Update Ardev CLI
   --version:
   ''');
   }

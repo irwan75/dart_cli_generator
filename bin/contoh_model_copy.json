@@ -1,0 +1,23 @@
+{
+  "userId": 1,
+  "id": 1,
+  "title": "delectus aut autem",
+  "completed": false,
+  "dataField": 
+    {
+      "dataku": true,
+      "dataField": 10,
+      "mainData": "okee siapp"       
+    },
+  "datadata":{
+    "dataSatu": 2918.09,
+    "dataDua": "okeee"
+  },
+  "dataSederhana": [
+    {
+      "dataku": "data1",
+      "valueku": true,
+      "hasilDataku": 0.0
+    }
+  ]  
+}

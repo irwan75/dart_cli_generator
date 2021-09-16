@@ -100,6 +100,7 @@ abstract class Question {
   static const String nullSafety = 'Do you want to use null safety?';
   static const String linterRule = 'Do you want to use some linter?';
   static const String ardevPattern = 'Do you want to use ardev pattern?';
+  static const String ardevWritePattern = 'Do you want to overwrite flutter file with ardev pattern?';
 }
 
 abstract class FileNameandPath {

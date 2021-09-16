@@ -33,46 +33,46 @@ import 'dart:io';
 ///📘: action message
 ///📓: canceled status message
 ///📔: Or anything you like and want to recognize immediately by color
-class PrintColor {
+class Logger {
 
-  PrintColor._privateConstructor();
+  Logger._privateConstructor();
 
-  static final PrintColor _instance = PrintColor._privateConstructor();
+  static final Logger _instance = Logger._privateConstructor();
 
-  static PrintColor get getInstance => _instance;
+  static Logger get getInstance => _instance;
 
   /// ![Print Warning]('https://winpoin.com/wp-content/uploads/2013/03/free-image-resizer4.png')
   /// 
   /// Color Yellow
-  void printWarning(String text) {
+  Logger.warning(String text) {
     stdout.write('\x1B[33m$text\x1B[0m');
   }
 
   /// Print Error
   /// 
   /// Color Red
-  void printError(String text) {
+  Logger.error(String text) {
     stdout.write('\u001b[1m\x1B[31m$text\x1B[0m');
   }
 
   /// Print Success
   /// 
   /// Color Green
-  void printSucessfull(String text) {
+  Logger.successfull(String text) {
     stdout.write('\x1B[32m$text\x1B[0m');
   }
 
   /// Print List
   /// 
   /// Color Blue
-  void printList(String text) {
+  Logger.list(String text) {
     stdout.write('\x1B[34m$text\x1B[0m');
   }
 
   /// Print Question
   /// 
   /// Color White
-  void printQuestion(String text) {
+  Logger.question(String text) {
     stdout.write('\x1B[37m$text\x1B[0m');
   }
 
