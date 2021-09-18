@@ -13,7 +13,13 @@ import 'validation/string.dart';
 
 import 'extension/string_extension.dart';
 
+String directoryTemporary = "";
+String filePathFull = "";
+
 void main(List<String> arguments) async {
+  var resultArgumentChecked = await argumentChecked(arguments);
+
+  (resultArgumentChecked) ? createPathDataModel() : showCommandsExample();
   // var projectName;
   // var companyDomain;
   // var iosLanguange;
@@ -117,9 +123,37 @@ void main(List<String> arguments) async {
   // }
 
   // print(result.stdout);
-  // HelperView.getInstance.showAvailableCommands();
 
-  createPathDataModel();
+  // createPathDataModel();
+}
+
+Future<bool> argumentChecked(List<String> arguments) async {
+  if (!arguments.isEmpty && arguments.length == 5) {
+    if (arguments[0] == 'generate' && arguments[1] == 'model') {
+      var checkFileExist =
+          await File(Directory.current.path + '/' + arguments[2]).exists();
+      if (checkFileExist) {
+        filePathFull = Directory.current.path + '/' + arguments[2];
+        if (arguments[3] == 'on') {
+          if (arguments[4].substring(arguments[4].length - 1) == '/') {
+            directoryTemporary = Directory.current.path + '/' + arguments[4];
+            FolderHelper.createFolder(directoryTemporary);
+            return true;
+          }
+        }
+      } else {
+        Logger.error("\n====Your File Doesn't Exist====");
+      }
+    }
+  }
+  return false;
+}
+
+void showCommandsExample() {
+  Logger.error("\n====Wrong Commands====\n");
+  HelperView.getInstance.showHelpLevel1();
+  // HelperView.getInstance.exampleInitializeCLI();
+  HelperView.getInstance.exampleCLI();
 }
 
 Future createTemplateDirectory(String pathBaseDirectory) async {
@@ -263,17 +297,24 @@ List<String> dataCollectString = [];
 int maxLimit = 50;
 
 void createPathDataModel() {
-  String completePath = Directory.current.path + '/bin/contoh_model_copy.json';
-  final dataConvert = FileHelper.readFileSync(completePath);
-  var fileName = (completePath.split('/').last).split('.').first;
-  var pathFileandName = Directory.current.path + '/$fileName' + '_request.dart';
-  FileHelper.createFile(pathFileandName);
+  try {
+    final dataConvert = FileHelper.readFileSync(filePathFull);
 
-  for (int i = 1; i < maxLimit; i++) {
-    dataModelGenerate.add([]);
-    dataCollectString.add("");
+    var fileName = (filePathFull.split('/').last).split('.').first;
+
+    var pathFileandName = '$directoryTemporary$fileName' + '.dart';
+
+    FileHelper.createFile(pathFileandName);
+
+    for (int i = 1; i < maxLimit; i++) {
+      dataModelGenerate.add([]);
+      dataCollectString.add("");
+    }
+    Future.delayed(Duration(seconds: 1)).then((value) =>
+        initializeParentModel(dataConvert, fileName, pathFileandName));
+  } on Exception catch (_) {
+    Logger.error("\nInside Json File is invalid!!\n\n");
   }
-  initializeParentModel(dataConvert, fileName, pathFileandName);
 }
 
 void initializeParentModel(
@@ -312,45 +353,45 @@ void initializeParentModel(
   dataCollectString[i] += '});\n';
 
   dataCollectString[i] += 'Map<String, dynamic> toMap(){\n';
-    dataCollectString[i] += 'return{\n';
-    dataConvert.dataResultMapping.forEach((key, value) {
-      if (value.runtimeType
-          .toString()
-          .contains('_InternalLinkedHashMap<String, dynamic>')) {
-        dataCollectString[i] += "'$key': $key.toMap(),\n";
-      } else if (value.runtimeType.toString().contains('List<dynamic>')) {
-        dataCollectString[i] += "'$key': $key.map((x)=> x.toMap()).toList(),\n";
-      } else {
-        dataCollectString[i] += "'$key': $key,\n";
-      }
-    });
-    dataCollectString[i] += '};\n';
-    dataCollectString[i] += '}\n\n';
+  dataCollectString[i] += 'return{\n';
+  dataConvert.dataResultMapping.forEach((key, value) {
+    if (value.runtimeType
+        .toString()
+        .contains('_InternalLinkedHashMap<String, dynamic>')) {
+      dataCollectString[i] += "'$key': $key.toMap(),\n";
+    } else if (value.runtimeType.toString().contains('List<dynamic>')) {
+      dataCollectString[i] += "'$key': $key.map((x)=> x.toMap()).toList(),\n";
+    } else {
+      dataCollectString[i] += "'$key': $key,\n";
+    }
+  });
+  dataCollectString[i] += '};\n';
+  dataCollectString[i] += '}\n\n';
 
-    dataCollectString[i] +=
-        'factory ${fileName.toClassName()}.fromMap(Map<String, dynamic> map) {\n';
-    dataCollectString[i] +=
-        'return ${fileName.toClassName()}(\n';
+  dataCollectString[i] +=
+      'factory ${fileName.toClassName()}.fromMap(Map<String, dynamic> map) {\n';
+  dataCollectString[i] += 'return ${fileName.toClassName()}(\n';
 
-    dataConvert.dataResultMapping.forEach((key, value) {
-      if (value.runtimeType
-          .toString()
-          .contains('_InternalLinkedHashMap<String, dynamic>')) {
-        dataCollectString[i] += "$key: ${key.toClassName()}.fromMap(map['$key']),\n";
-      } else if (value.runtimeType.toString().contains('List<dynamic>')) {
-        dataCollectString[i] += "$key: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
-      } else {
-        dataCollectString[i] += "$key: map['$key'],\n";
-      }
-    });
+  dataConvert.dataResultMapping.forEach((key, value) {
+    if (value.runtimeType
+        .toString()
+        .contains('_InternalLinkedHashMap<String, dynamic>')) {
+      dataCollectString[i] +=
+          "$key: ${key.toClassName()}.fromMap(map['$key']),\n";
+    } else if (value.runtimeType.toString().contains('List<dynamic>')) {
+      dataCollectString[i] +=
+          "$key: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
+    } else {
+      dataCollectString[i] += "$key: map['$key'] ?? ${getValueNullSafety(value.runtimeType.toString())},\n";
+    }
+  });
 
-    dataCollectString[i] += ');\n';
-    dataCollectString[i] += '}\n\n';
+  dataCollectString[i] += ');\n';
+  dataCollectString[i] += '}\n\n';
 
-    dataCollectString[i] += 'String toJson() => json.encode(toMap());\n\n';
-    dataCollectString[i] +=
-        'factory ${fileName.toClassName()}.fromJson(String source) => ${fileName.toClassName()}.fromMap(json.decode(source));\n\n';
-
+  dataCollectString[i] += 'String toJson() => json.encode(toMap());\n\n';
+  dataCollectString[i] +=
+      'factory ${fileName.toClassName()}.fromJson(String source) => ${fileName.toClassName()}.fromMap(json.decode(source));\n\n';
 
   dataCollectString[i] += '}\n\n';
 
@@ -367,7 +408,7 @@ void getDataChildModel(String pathComplete) {
   }
 
   FileHelper.writeFile(pathComplete, valueCollect);
-  Logger.warning(valueCollect);
+  Logger.successfull("\nCreate Class Model Successfull!!\n\n");
 }
 
 void generateChildModel(int i) {
@@ -430,11 +471,13 @@ void generateChildModel(int i) {
       if (value.runtimeType
           .toString()
           .contains('_InternalLinkedHashMap<String, dynamic>')) {
-        dataCollectString[i] += "$key: ${key.toClassName()}.fromMap(map['$key']),\n";
+        dataCollectString[i] +=
+            "$key: ${key.toClassName()}.fromMap(map['$key']),\n";
       } else if (value.runtimeType.toString().contains('List<dynamic>')) {
-        dataCollectString[i] += "$key: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
+        dataCollectString[i] +=
+            "$key: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
       } else {
-        dataCollectString[i] += "$key: map['$key'],\n";
+        dataCollectString[i] += "$key: map['$key'] ?? ${getValueNullSafety(value.runtimeType.toString())},\n";
       }
     });
 
@@ -449,6 +492,20 @@ void generateChildModel(int i) {
   }
 }
 
+dynamic getValueNullSafety(String value) {
+  switch (value) {
+    case 'String':
+      return "''";
+    case 'int':
+      return 0;
+    case 'double':
+      return 0.0;
+    case 'bool':
+      return false;
+    default:
+      return "''";
+  }
+}
 
 /// ![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 // void createLinter(String path) async {

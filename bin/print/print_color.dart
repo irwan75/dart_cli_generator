@@ -76,4 +76,8 @@ class Logger {
     stdout.write('\x1B[37m$text\x1B[0m');
   }
 
+  Logger.example(String text){
+    stdout.write('\x1B[36m$text\x1B[0m');
+  }
+
 }

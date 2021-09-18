@@ -1,14 +1,13 @@
 import '../print/print_color.dart';
 
 class HelperView {
-
   HelperView._privateConstructor();
 
   static final HelperView _instance = HelperView._privateConstructor();
 
   static HelperView get getInstance => _instance;
 
-  void showAvailableCommands(){
+  void showAvailableCommands() {
     Logger.warning('''\n
 List available commands:\n
   create:
@@ -26,4 +25,21 @@ List available commands:\n
   ''');
   }
 
+  void showHelpLevel1() {
+    Logger.warning('''
+\nAvailable commands:\n
+  generate:
+    model: Generate Model Class from Json File
+''');
+  }
+
+  void exampleInitializeCLI() {
+    Logger.example(
+        '    initialize directory : gm generate model assets/models/file_name.json on lib/app/models/\n');
+  }
+
+  void exampleCLI() {
+    Logger.example(
+        '    example : gm generate model assets/models/file_name.json on lib/app/models/request/item/\n\n');
+  }
 }
