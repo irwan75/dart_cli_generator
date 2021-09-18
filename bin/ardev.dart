@@ -119,7 +119,7 @@ void main(List<String> arguments) async {
   // print(result.stdout);
   // HelperView.getInstance.showAvailableCommands();
 
-  generateModelsFile();
+  createPathDataModel();
 }
 
 Future createTemplateDirectory(String pathBaseDirectory) async {
@@ -256,77 +256,199 @@ Future writeFileTemplate(String pathBaseDirectory) async {
   } on Exception catch (_) {}
 }
 
-void generateModelsFile() {
-  List<Map<String, dynamic>> pathObject = [];
+List<List<Map<String, dynamic>>> dataModelGenerate = [];
 
-  String valueFile = "";
+List<String> dataCollectString = [];
 
+int maxLimit = 50;
+
+void createPathDataModel() {
   String completePath = Directory.current.path + '/bin/contoh_model_copy.json';
-
   final dataConvert = FileHelper.readFileSync(completePath);
-
   var fileName = (completePath.split('/').last).split('.').first;
+  var pathFileandName = Directory.current.path + '/$fileName' + '_request.dart';
+  FileHelper.createFile(pathFileandName);
 
-  FileHelper.createFile(
-      Directory.current.path + '/$fileName' + '_request.dart');
+  for (int i = 1; i < maxLimit; i++) {
+    dataModelGenerate.add([]);
+    dataCollectString.add("");
+  }
+  initializeParentModel(dataConvert, fileName, pathFileandName);
+}
 
-  print(Directory.current.path + '/$fileName' + '.dart');
+void initializeParentModel(
+    FileHelper dataConvert, String fileName, String pathComplete) {
+  int i = 0;
+  dataCollectString[i] += "import 'dart:convert';\n\n";
 
-  Map<String, dynamic> namaku = {"nama": "namaku", "data": true};
+  dataCollectString[i] += 'class ${fileName.toClassName()}{\n';
 
-  valueFile += 'class ${fileName.toTitleCaseWithSymbol('_')}{\n';
   dataConvert.dataResultMapping.forEach((key, value) {
     if (value.runtimeType
         .toString()
         .contains('_InternalLinkedHashMap<String, dynamic>')) {
-      valueFile += '   ${key.toTitleCase()} $key;\n';
+      dataCollectString[i] += '   ${key.toClassName()} $key;\n';
 
-      pathObject.add({
-        'nameClass': '${key.toTitleCase()}',
+      dataModelGenerate[i].add({
+        'nameClass': '${key.toClassName()}',
         'valueClass': '${json.encode(dataConvert.dataResultMapping['$key'])}'
       });
     } else if (value.runtimeType.toString().contains('List<dynamic>')) {
-      valueFile += '   List<${key.toTitleCase()}> $key;\n';
-      pathObject.add({
-        'nameClass': '${key.toTitleCase()}',
+      dataCollectString[i] += '   List<${key.toClassName()}> $key;\n';
+
+      dataModelGenerate[i].add({
+        'nameClass': '${key.toClassName()}',
         'valueClass': '${json.encode(dataConvert.dataResultMapping['$key'][0])}'
       });
     } else {
-      valueFile += '   ${value.runtimeType.toString()} $key;\n';
+      dataCollectString[i] += '   ${value.runtimeType.toString()} $key;\n';
     }
   });
-  valueFile += '${fileName.toTitleCaseWithSymbol('_')}({\n';
+  i++;
+  dataCollectString[i] += '${fileName.toClassName()}({\n';
   dataConvert.dataResultMapping.forEach((key, value) {
-    valueFile += '  required this.$key,\n';
+    dataCollectString[i] += '  required this.$key,\n';
   });
-  valueFile += '});\n';
-  valueFile += '}\n\n';
+  dataCollectString[i] += '});\n';
 
-  pathObject.forEach((element) {
-    valueFile += 'class ${element['nameClass']}{\n';
-
-    var result = jsonDecode(element['valueClass']) as Map<String, dynamic>;
-
-    result.forEach((key, value) {
-      valueFile += '   ${value.runtimeType.toString()} $key;\n';
+  dataCollectString[i] += 'Map<String, dynamic> toMap(){\n';
+    dataCollectString[i] += 'return{\n';
+    dataConvert.dataResultMapping.forEach((key, value) {
+      if (value.runtimeType
+          .toString()
+          .contains('_InternalLinkedHashMap<String, dynamic>')) {
+        dataCollectString[i] += "'$key': $key.toMap(),\n";
+      } else if (value.runtimeType.toString().contains('List<dynamic>')) {
+        dataCollectString[i] += "'$key': $key.map((x)=> x.toMap()).toList(),\n";
+      } else {
+        dataCollectString[i] += "'$key': $key,\n";
+      }
     });
-    valueFile += '${element['nameClass']}({\n';
-    result.forEach((key, value) {
-      valueFile += '  required this.$key,\n';
+    dataCollectString[i] += '};\n';
+    dataCollectString[i] += '}\n\n';
+
+    dataCollectString[i] +=
+        'factory ${fileName.toClassName()}.fromMap(Map<String, dynamic> map) {\n';
+    dataCollectString[i] +=
+        'return ${fileName.toClassName()}(\n';
+
+    dataConvert.dataResultMapping.forEach((key, value) {
+      if (value.runtimeType
+          .toString()
+          .contains('_InternalLinkedHashMap<String, dynamic>')) {
+        dataCollectString[i] += "$key: ${key.toClassName()}.fromMap(map['$key']),\n";
+      } else if (value.runtimeType.toString().contains('List<dynamic>')) {
+        dataCollectString[i] += "$key: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
+      } else {
+        dataCollectString[i] += "$key: map['$key'],\n";
+      }
     });
-    valueFile += '});\n\n';
 
-    valueFile += '}\n\n';
-  });
+    dataCollectString[i] += ');\n';
+    dataCollectString[i] += '}\n\n';
 
-  // print("${json.encode(dataConvert.dataResultMapping['dataField'])}");
-  // String data = "{userId: 1,title: delectus aut autem }";
-  print(valueFile);
-  // print(json.encode(data));
+    dataCollectString[i] += 'String toJson() => json.encode(toMap());\n\n';
+    dataCollectString[i] +=
+        'factory ${fileName.toClassName()}.fromJson(String source) => ${fileName.toClassName()}.fromMap(json.decode(source));\n\n';
 
-  FileHelper.writeFile(
-      Directory.current.path + '/$fileName' + '_request.dart', valueFile);
+
+  dataCollectString[i] += '}\n\n';
+
+  getDataChildModel(pathComplete);
 }
+
+void getDataChildModel(String pathComplete) {
+  for (int i = 1; i < maxLimit; i++) {
+    generateChildModel(i);
+  }
+  var valueCollect = "";
+  for (var value in dataCollectString) {
+    valueCollect += value;
+  }
+
+  FileHelper.writeFile(pathComplete, valueCollect);
+  Logger.warning(valueCollect);
+}
+
+void generateChildModel(int i) {
+  for (int a = 0; a < dataModelGenerate[i - 1].length; a++) {
+    dataCollectString[i] +=
+        'class ${dataModelGenerate[i - 1][a]['nameClass']}{\n';
+
+    var result = jsonDecode(dataModelGenerate[i - 1][a]['valueClass'])
+        as Map<String, dynamic>;
+
+    result.forEach((key, value) {
+      if (value.runtimeType
+          .toString()
+          .contains('_InternalLinkedHashMap<String, dynamic>')) {
+        dataCollectString[i] += '   ${key.toClassName()} $key;\n';
+
+        dataModelGenerate[i].add({
+          'nameClass': '${key.toClassName()}',
+          'valueClass': '${json.encode(result['$key'])}'
+        });
+      } else if (value.runtimeType.toString().contains('List<dynamic>')) {
+        dataCollectString[i] += '   List<${key.toClassName()}> $key;\n';
+
+        dataModelGenerate[i].add({
+          'nameClass': '${key.toClassName()}',
+          'valueClass': '${json.encode(result['$key'][0])}'
+        });
+      } else {
+        dataCollectString[i] += '   ${value.runtimeType.toString()} $key;\n';
+      }
+    });
+    dataCollectString[i] += '${dataModelGenerate[i - 1][a]['nameClass']}({\n';
+    result.forEach((key, value) {
+      dataCollectString[i] += '  required this.$key,\n';
+    });
+    dataCollectString[i] += '});\n\n';
+
+    dataCollectString[i] += 'Map<String, dynamic> toMap(){\n';
+    dataCollectString[i] += 'return{\n';
+    result.forEach((key, value) {
+      if (value.runtimeType
+          .toString()
+          .contains('_InternalLinkedHashMap<String, dynamic>')) {
+        dataCollectString[i] += "'$key': $key.toMap(),\n";
+      } else if (value.runtimeType.toString().contains('List<dynamic>')) {
+        dataCollectString[i] += "'$key': $key.map((x)=> x.toMap()).toList(),\n";
+      } else {
+        dataCollectString[i] += "'$key': $key,\n";
+      }
+    });
+    dataCollectString[i] += '};\n';
+    dataCollectString[i] += '}\n\n';
+
+    dataCollectString[i] +=
+        'factory ${dataModelGenerate[i - 1][a]['nameClass']}.fromMap(Map<String, dynamic> map) {\n';
+    dataCollectString[i] +=
+        'return ${dataModelGenerate[i - 1][a]['nameClass']}(\n';
+
+    result.forEach((key, value) {
+      if (value.runtimeType
+          .toString()
+          .contains('_InternalLinkedHashMap<String, dynamic>')) {
+        dataCollectString[i] += "$key: ${key.toClassName()}.fromMap(map['$key']),\n";
+      } else if (value.runtimeType.toString().contains('List<dynamic>')) {
+        dataCollectString[i] += "$key: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
+      } else {
+        dataCollectString[i] += "$key: map['$key'],\n";
+      }
+    });
+
+    dataCollectString[i] += ');\n';
+    dataCollectString[i] += '}\n\n';
+
+    dataCollectString[i] += 'String toJson() => json.encode(toMap());\n\n';
+    dataCollectString[i] +=
+        'factory ${dataModelGenerate[i - 1][a]['nameClass']}.fromJson(String source) => ${dataModelGenerate[i - 1][a]['nameClass']}.fromMap(json.decode(source));\n\n';
+
+    dataCollectString[i] += '}\n\n';
+  }
+}
+
 
 /// ![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 // void createLinter(String path) async {

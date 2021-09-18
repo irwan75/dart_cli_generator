@@ -13,11 +13,69 @@
     "dataSatu": 2918.09,
     "dataDua": "okeee"
   },
+  "dimana_bosku":{
+    "okeemantap": true
+  },
   "dataSederhana": [
     {
       "dataku": "data1",
       "valueku": true,
-      "hasilDataku": 0.0
+      "hasilDataku": 0.0,
+      "adaDataku": {
+        "okeeSiapp": 250,
+        "siapapanya": true
+      },
+      "tidakAda": [
+        {
+          "okeeada": true,
+          "adakadabra": 0.5,
+          "adakah": {
+            "datadata": true,
+            "cobainDeh": {
+              "anjayy":[
+                {
+                  "anjayMabar": "mantapp",
+                  "okee": true,
+                  "siappp": {
+                    "dimana": 0.56,
+                    "siapa": [
+                      {
+                        "okeoke": 40,
+                        "dimanaAda": 20,
+                        "okeboss": {
+                          "siapp": "okee",
+                          "dimanaBoss": [
+                            {
+                              "adamikah":"iyoAdami",
+                              "dimanaiPle": "disanaKapang",
+                              "jadi": {
+                                "okeehajarboss": "ready",
+                                "done": "donemake",
+                                "sub": [
+                                  {
+                                    "datasub": "facebook",
+                                    "datadimana": "okeesiapp",
+                                    "okeeboss": [
+                                      {
+                                        "dimanaboss": "okee",
+                                        "siapp": true
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   ]  
 }

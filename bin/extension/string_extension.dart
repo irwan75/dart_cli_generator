@@ -6,6 +6,21 @@ extension StringCustom on String {
   String toTitleCase() {
     return convertToTitleCase(this);
   }
+
+  String toClassName() {
+    return convertToClassName(this);
+  }
+}
+
+String convertToClassName(String text) {
+  final List<String> words = text.split('_');
+  String namaClass = "";
+  for (var value in words) {
+    final String firstLetter = value.trim().substring(0, 1).toUpperCase();
+    final String remainingLetters = value.trim().substring(1);
+    namaClass += firstLetter+remainingLetters;
+  }
+  return namaClass;
 }
 
 String convertToTitleCaseWithSpace(String text, String kodeSplit) {
