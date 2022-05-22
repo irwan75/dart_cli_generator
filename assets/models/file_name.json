@@ -2,7 +2,7 @@
     "userId": 1,
     "id": 1,
     "title": "delectus aut autem",
-    "completed": false,
+    "completed_completed": false,
     "dataField": 
       {
         "dataku": true,
@@ -21,7 +21,7 @@
         "dataku": "data1",
         "valueku": true,
         "hasilDataku": 0.0,
-        "adaDataku": {
+        "ada_Dataku": {
           "okeeSiapp": 250,
           "siapapanya": true
         },
@@ -53,9 +53,9 @@
                                   "done": "donemake",
                                   "sub": [
                                     {
-                                      "datasub": "facebook",
-                                      "datadimana": "okeesiapp",
-                                      "okeeboss": [
+                                      "Datasub": "facebook",
+                                      "data_dimana": "okeesiapp",
+                                      "okee_boss": [
                                         {
                                           "dimanaboss": "okee",
                                           "siapp": true

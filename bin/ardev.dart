@@ -17,110 +17,110 @@ String directoryTemporary = "";
 String filePathFull = "";
 
 void main(List<String> arguments) async {
-  var resultArgumentChecked = await argumentChecked(arguments);
+  // var resultArgumentChecked = await argumentChecked(arguments);
 
-  (resultArgumentChecked) ? createPathDataModel() : showCommandsExample();
-  // var projectName;
-  // var companyDomain;
-  // var iosLanguange;
-  // var androidLanguange;
-  // var nullSafety;
-  // var ardevPattern;
+  // (resultArgumentChecked) ? createPathDataModel() : showCommandsExample();
+  var projectName;
+  var companyDomain;
+  var iosLanguange;
+  var androidLanguange;
+  var nullSafety;
+  var ardevPattern;
 
-  // do {
-  //   Logger.warning(Question.projectName + ' ');
-  //   projectName = stdin.readLineSync();
-  //   print('');
-  // } while (StringValidation.isThereisData(projectName) ||
-  //     StringValidation.isValidProjectName(projectName));
+  do {
+    Logger.warning(Question.projectName + ' ');
+    projectName = stdin.readLineSync();
+    print('');
+  } while (StringValidation.isThereisData(projectName) ||
+      StringValidation.isValidProjectName(projectName));
 
-  // do {
-  //   Logger.warning(Question.companyDomain +
-  //       ' \u001b[1m' +
-  //       Question.exampleCompanyDomain +
-  //       ' ');
-  //   companyDomain = stdin.readLineSync();
-  //   print('');
-  // } while (StringValidation.isCompanyDomain(companyDomain));
+  do {
+    Logger.warning(Question.companyDomain +
+        ' \u001b[1m' +
+        Question.exampleCompanyDomain +
+        ' ');
+    companyDomain = stdin.readLineSync();
+    print('');
+  } while (StringValidation.isCompanyDomain(companyDomain));
 
-  // do {
-  //   Logger.question('\u001b[1m1) Swift\n');
-  //   Logger.question('\u001b[1m2) Objective-C\n');
-  //   Logger.warning(Question.iosLanguange + ' ');
-  //   iosLanguange = stdin.readLineSync();
-  //   print('');
-  // } while (IntValidation.isValidChoose(iosLanguange));
+  do {
+    Logger.question('\u001b[1m1) Swift\n');
+    Logger.question('\u001b[1m2) Objective-C\n');
+    Logger.warning(Question.iosLanguange + ' ');
+    iosLanguange = stdin.readLineSync();
+    print('');
+  } while (IntValidation.isValidChoose(iosLanguange));
 
-  // do {
-  //   Logger.question('\u001b[1m1) Kotlin\n');
-  //   Logger.question('\u001b[1m2) Java\n');
-  //   Logger.warning(Question.androidLanguange + ' ');
-  //   androidLanguange = stdin.readLineSync();
-  //   print('');
-  // } while (IntValidation.isValidChoose(androidLanguange));
+  do {
+    Logger.question('\u001b[1m1) Kotlin\n');
+    Logger.question('\u001b[1m2) Java\n');
+    Logger.warning(Question.androidLanguange + ' ');
+    androidLanguange = stdin.readLineSync();
+    print('');
+  } while (IntValidation.isValidChoose(androidLanguange));
 
-  // do {
-  //   Logger.question('\u001b[1m1) Yes!\n');
-  //   Logger.question('\u001b[1m2) No\n');
-  //   Logger.warning(Question.nullSafety + ' ');
-  //   nullSafety = stdin.readLineSync();
-  //   print('');
-  // } while (IntValidation.isValidChoose(nullSafety));
+  do {
+    Logger.question('\u001b[1m1) Yes!\n');
+    Logger.question('\u001b[1m2) No\n');
+    Logger.warning(Question.nullSafety + ' ');
+    nullSafety = stdin.readLineSync();
+    print('');
+  } while (IntValidation.isValidChoose(nullSafety));
 
-  // final pathProject =
-  //     Directory.current.path + '/' + projectName.toString().trim();
+  final pathProject =
+      Directory.current.path + '/' + projectName.toString().trim();
 
-  // await Process.run('flutter', [
-  //   'create',
-  //   '--no-pub',
-  //   '-i',
-  //   '${DecisionDefaultLanguange.decisionIosLanguange(iosLanguange).trim()}',
-  //   '-a',
-  //   '${DecisionDefaultLanguange.decisionAndroidLanguange(androidLanguange).trim()}',
-  //   '--org',
-  //   '${companyDomain.toString().trim()}',
-  //   '$pathProject'
-  // ]).then((result) async {
-  //   stdout.write(result.stdout);
-  //   Logger.successfull('Success Create Project $pathProject\n\n');
+  await Process.run('flutter', [
+    'create',
+    '--no-pub',
+    '-i',
+    '${DecisionDefaultLanguange.decisionIosLanguange(iosLanguange).trim()}',
+    '-a',
+    '${DecisionDefaultLanguange.decisionAndroidLanguange(androidLanguange).trim()}',
+    '--org',
+    '${companyDomain.toString().trim()}',
+    '$pathProject'
+  ]).then((result) async {
+    stdout.write(result.stdout);
+    Logger.successfull('Success Create Project $pathProject\n\n');
 
-  //   if (int.parse(nullSafety) == 1)
-  //     await Process.run('flutter', ['pub', 'get'])
-  //         .then(
-  //       (result) async => await Process.run(
-  //               'dart', ['migrate', '--apply-changes', '--skip-import-check'])
-  //           .then(
-  //         (nestedResult) =>
-  //             Logger.successfull('Success migrate to null safety!\n\n'),
-  //       )
-  //           .catchError((error) {
-  //         print('There is error : $error');
-  //       }),
-  //     )
-  //         .catchError((error) {
-  //       print('There is error : $error');
-  //     });
-  // }).catchError((error) {
-  //   print('There is error : $error');
-  // });
+    if (int.parse(nullSafety) == 1)
+      await Process.run('flutter', ['pub', 'get'])
+          .then(
+        (result) async => await Process.run(
+                'dart', ['migrate', '--apply-changes', '--skip-import-check'])
+            .then(
+          (nestedResult) =>
+              Logger.successfull('Success migrate to null safety!\n\n'),
+        )
+            .catchError((error) {
+          print('There is error : $error');
+        }),
+      )
+          .catchError((error) {
+        print('There is error : $error');
+      });
+  }).catchError((error) {
+    print('There is error : $error');
+  });
 
-  // do {
-  //   Logger.question('\u001b[1m1) Yes\n');
-  //   Logger.question('\u001b[1m2) No\n');
-  //   Logger.warning(Question.ardevPattern + ' ');
-  //   ardevPattern = stdin.readLineSync();
-  //   print('');
-  // } while (IntValidation.isValidChoose(ardevPattern));
+  do {
+    Logger.question('\u001b[1m1) Yes\n');
+    Logger.question('\u001b[1m2) No\n');
+    Logger.warning(Question.ardevPattern + ' ');
+    ardevPattern = stdin.readLineSync();
+    print('');
+  } while (IntValidation.isValidChoose(ardevPattern));
 
-  // if (int.parse(ardevPattern) == 1) {
-  //   await createTemplateDirectory(pathProject);
-  //   await createFileTemplate(pathProject);
-  //   Logger.warning("Waiting for create pattern!!\n\n");
-  //   Future.delayed(Duration(seconds: 1)).then((value) async {
-  //     await writeFileTemplate(pathProject);
-  //     Logger.successfull("Success create Pattern!!!\n\n");
-  //   });
-  // }
+  if (int.parse(ardevPattern) == 1) {
+    await createTemplateDirectory(pathProject);
+    await createFileTemplate(pathProject);
+    Logger.warning("Waiting for create pattern!!\n\n");
+    Future.delayed(Duration(seconds: 1)).then((value) async {
+      await writeFileTemplate(pathProject);
+      Logger.successfull("Success create Pattern!!!\n\n");
+    });
+  }
 
   // print(result.stdout);
 
@@ -139,10 +139,16 @@ Future<bool> argumentChecked(List<String> arguments) async {
             directoryTemporary = Directory.current.path + '/' + arguments[4];
             FolderHelper.createFolder(directoryTemporary);
             return true;
+          } else {
+            directoryTemporary =
+                Directory.current.path + '/' + arguments[4] + '/';
+            FolderHelper.createFolder(directoryTemporary);
+            return true;
           }
         }
       } else {
         Logger.error("\n====Your File Doesn't Exist====");
+        return false;
       }
     }
   }
@@ -328,70 +334,77 @@ void initializeParentModel(
     if (value.runtimeType
         .toString()
         .contains('_InternalLinkedHashMap<String, dynamic>')) {
-      dataCollectString[i] += '   ${key.toClassName()} $key;\n';
+      dataCollectString[i] +=
+          '  ${key.toClassName()} ${key.toValidVariableName()};\n';
 
       dataModelGenerate[i].add({
         'nameClass': '${key.toClassName()}',
         'valueClass': '${json.encode(dataConvert.dataResultMapping['$key'])}'
       });
     } else if (value.runtimeType.toString().contains('List<dynamic>')) {
-      dataCollectString[i] += '   List<${key.toClassName()}> $key;\n';
+      dataCollectString[i] +=
+          '  List<${key.toClassName()}> ${key.toValidVariableName()};\n';
 
       dataModelGenerate[i].add({
         'nameClass': '${key.toClassName()}',
         'valueClass': '${json.encode(dataConvert.dataResultMapping['$key'][0])}'
       });
     } else {
-      dataCollectString[i] += '   ${value.runtimeType.toString()} $key;\n';
+      dataCollectString[i] +=
+          '  ${value.runtimeType.toString()} ${key.toValidVariableName()};\n';
     }
   });
   i++;
-  dataCollectString[i] += '${fileName.toClassName()}({\n';
+  dataCollectString[i] += '\n';
+  dataCollectString[i] += '  ${fileName.toClassName()}({\n';
   dataConvert.dataResultMapping.forEach((key, value) {
-    dataCollectString[i] += '  required this.$key,\n';
+    dataCollectString[i] += '    required this.${key.toValidVariableName()},\n';
   });
-  dataCollectString[i] += '});\n';
+  dataCollectString[i] += '  });\n\n';
 
-  dataCollectString[i] += 'Map<String, dynamic> toMap(){\n';
-  dataCollectString[i] += 'return{\n';
+  dataCollectString[i] += '  Map<String, dynamic> toMap(){\n';
+  dataCollectString[i] += '    return{\n';
   dataConvert.dataResultMapping.forEach((key, value) {
     if (value.runtimeType
         .toString()
         .contains('_InternalLinkedHashMap<String, dynamic>')) {
-      dataCollectString[i] += "'$key': $key.toMap(),\n";
+      dataCollectString[i] +=
+          "      '$key': ${key.toValidVariableName()}.toMap(),\n";
     } else if (value.runtimeType.toString().contains('List<dynamic>')) {
-      dataCollectString[i] += "'$key': $key.map((x)=> x.toMap()).toList(),\n";
+      dataCollectString[i] +=
+          "      '$key': ${key.toValidVariableName()}.map((x)=> x.toMap()).toList(),\n";
     } else {
-      dataCollectString[i] += "'$key': $key,\n";
+      dataCollectString[i] += "      '$key': ${key.toValidVariableName()},\n";
     }
   });
-  dataCollectString[i] += '};\n';
-  dataCollectString[i] += '}\n\n';
+  dataCollectString[i] += '    };\n';
+  dataCollectString[i] += '  }\n\n';
 
   dataCollectString[i] +=
-      'factory ${fileName.toClassName()}.fromMap(Map<String, dynamic> map) {\n';
-  dataCollectString[i] += 'return ${fileName.toClassName()}(\n';
+      '  factory ${fileName.toClassName()}.fromMap(Map<String, dynamic> map) {\n';
+  dataCollectString[i] += '    return ${fileName.toClassName()}(\n';
 
   dataConvert.dataResultMapping.forEach((key, value) {
     if (value.runtimeType
         .toString()
         .contains('_InternalLinkedHashMap<String, dynamic>')) {
       dataCollectString[i] +=
-          "$key: ${key.toClassName()}.fromMap(map['$key']),\n";
+          "      ${key.toValidVariableName()}: ${key.toClassName()}.fromMap(map['$key']),\n";
     } else if (value.runtimeType.toString().contains('List<dynamic>')) {
       dataCollectString[i] +=
-          "$key: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
+          "      ${key.toValidVariableName()}: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
     } else {
-      dataCollectString[i] += "$key: map['$key'] ?? ${getValueNullSafety(value.runtimeType.toString())},\n";
+      dataCollectString[i] +=
+          "      ${key.toValidVariableName()}: map['$key'] ?? ${getValueNullSafety(value.runtimeType.toString())},\n";
     }
   });
 
-  dataCollectString[i] += ');\n';
-  dataCollectString[i] += '}\n\n';
+  dataCollectString[i] += '    );\n';
+  dataCollectString[i] += '  }\n\n';
 
-  dataCollectString[i] += 'String toJson() => json.encode(toMap());\n\n';
+  dataCollectString[i] += '  String toJson() => json.encode(toMap());\n\n';
   dataCollectString[i] +=
-      'factory ${fileName.toClassName()}.fromJson(String source) => ${fileName.toClassName()}.fromMap(json.decode(source));\n\n';
+      '  factory ${fileName.toClassName()}.fromJson(String source) => ${fileName.toClassName()}.fromMap(json.decode(source));\n\n';
 
   dataCollectString[i] += '}\n\n';
 
@@ -423,70 +436,78 @@ void generateChildModel(int i) {
       if (value.runtimeType
           .toString()
           .contains('_InternalLinkedHashMap<String, dynamic>')) {
-        dataCollectString[i] += '   ${key.toClassName()} $key;\n';
+        dataCollectString[i] +=
+            '  ${key.toClassName()} ${key.toValidVariableName()};\n';
 
         dataModelGenerate[i].add({
           'nameClass': '${key.toClassName()}',
           'valueClass': '${json.encode(result['$key'])}'
         });
       } else if (value.runtimeType.toString().contains('List<dynamic>')) {
-        dataCollectString[i] += '   List<${key.toClassName()}> $key;\n';
+        dataCollectString[i] +=
+            '  List<${key.toClassName()}> ${key.toValidVariableName()};\n';
 
         dataModelGenerate[i].add({
           'nameClass': '${key.toClassName()}',
           'valueClass': '${json.encode(result['$key'][0])}'
         });
       } else {
-        dataCollectString[i] += '   ${value.runtimeType.toString()} $key;\n';
+        dataCollectString[i] +=
+            '  ${value.runtimeType.toString()} ${key.toValidVariableName()};\n';
       }
     });
-    dataCollectString[i] += '${dataModelGenerate[i - 1][a]['nameClass']}({\n';
+    dataCollectString[i] += '\n';
+    dataCollectString[i] += '  ${dataModelGenerate[i - 1][a]['nameClass']}({\n';
     result.forEach((key, value) {
-      dataCollectString[i] += '  required this.$key,\n';
+      dataCollectString[i] +=
+          '    required this.${key.toValidVariableName()},\n';
     });
-    dataCollectString[i] += '});\n\n';
+    dataCollectString[i] += '  });\n\n';
 
-    dataCollectString[i] += 'Map<String, dynamic> toMap(){\n';
-    dataCollectString[i] += 'return{\n';
+    dataCollectString[i] += '  Map<String, dynamic> toMap(){\n';
+    dataCollectString[i] += '    return{\n';
     result.forEach((key, value) {
       if (value.runtimeType
           .toString()
           .contains('_InternalLinkedHashMap<String, dynamic>')) {
-        dataCollectString[i] += "'$key': $key.toMap(),\n";
+        dataCollectString[i] +=
+            "      '$key': ${key.toValidVariableName()}.toMap(),\n";
       } else if (value.runtimeType.toString().contains('List<dynamic>')) {
-        dataCollectString[i] += "'$key': $key.map((x)=> x.toMap()).toList(),\n";
+        dataCollectString[i] +=
+            "      '$key': ${key.toValidVariableName()}.map((x)=> x.toMap()).toList(),\n";
       } else {
-        dataCollectString[i] += "'$key': $key,\n";
+        dataCollectString[i] += "      '$key': ${key.toValidVariableName()},\n";
       }
     });
-    dataCollectString[i] += '};\n';
-    dataCollectString[i] += '}\n\n';
+    dataCollectString[i] += '    };\n';
+    dataCollectString[i] += '  }\n\n';
 
     dataCollectString[i] +=
-        'factory ${dataModelGenerate[i - 1][a]['nameClass']}.fromMap(Map<String, dynamic> map) {\n';
+        '  factory ${dataModelGenerate[i - 1][a]['nameClass']}.fromMap(Map<String, dynamic> map) {\n';
     dataCollectString[i] +=
-        'return ${dataModelGenerate[i - 1][a]['nameClass']}(\n';
+        '    return ${dataModelGenerate[i - 1][a]['nameClass']}(\n';
 
     result.forEach((key, value) {
       if (value.runtimeType
           .toString()
           .contains('_InternalLinkedHashMap<String, dynamic>')) {
         dataCollectString[i] +=
-            "$key: ${key.toClassName()}.fromMap(map['$key']),\n";
+            "      ${key.toValidVariableName()}: ${key.toClassName()}.fromMap(map['$key']),\n";
       } else if (value.runtimeType.toString().contains('List<dynamic>')) {
         dataCollectString[i] +=
-            "$key: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
+            "      ${key.toValidVariableName()}: List<${key.toClassName()}>.from(map['$key']?.map((x)=> ${key.toClassName()}.fromMap(x))),\n";
       } else {
-        dataCollectString[i] += "$key: map['$key'] ?? ${getValueNullSafety(value.runtimeType.toString())},\n";
+        dataCollectString[i] +=
+            "      ${key.toValidVariableName()}: map['$key'] ?? ${getValueNullSafety(value.runtimeType.toString())},\n";
       }
     });
 
-    dataCollectString[i] += ');\n';
-    dataCollectString[i] += '}\n\n';
+    dataCollectString[i] += '    );\n';
+    dataCollectString[i] += '  }\n\n';
 
-    dataCollectString[i] += 'String toJson() => json.encode(toMap());\n\n';
+    dataCollectString[i] += '  String toJson() => json.encode(toMap());\n\n';
     dataCollectString[i] +=
-        'factory ${dataModelGenerate[i - 1][a]['nameClass']}.fromJson(String source) => ${dataModelGenerate[i - 1][a]['nameClass']}.fromMap(json.decode(source));\n\n';
+        '  factory ${dataModelGenerate[i - 1][a]['nameClass']}.fromJson(String source) => ${dataModelGenerate[i - 1][a]['nameClass']}.fromMap(json.decode(source));\n\n';
 
     dataCollectString[i] += '}\n\n';
   }
